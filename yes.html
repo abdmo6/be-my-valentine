@@ -1,36 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>YAY!</title>
+    <title>YAY! ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { text-align: center; font-family: 'Arial', sans-serif; background-color: #ffcccc; padding-top: 50px; }
-        h1 { color: #d63384; }
+        body { 
+            text-align: center; 
+            font-family: 'Arial', sans-serif; 
+            background-color: #ffcccc; 
+            padding-top: 50px; 
+            overflow: hidden; 
+        }
+        h1 { color: #d63384; font-size: 3rem; text-shadow: 2px 2px white; margin-bottom: 10px; }
+        img { border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin: 20px; max-width: 80%; }
+        p { font-size: 1.5rem; color: #555; }
     </style>
 </head>
 <body>
-    <h1>I KNEW YOU'D SAY YES! 🥳</h1>
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHp1eHByZzZ4eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/lTQF0ODLLJHzaHkK80/giphy.gif" width="400">
-    <p>Prepare for the best Valentine's ever!</p>
-    
-    <audio id="myAudio" autoplay>
-    <source src="music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
 
-<script>
-    // Browsers often block autoplay unless there is a click. 
-    // Since she clicked "YES" to get here, this script will trigger the music.
-    window.onload = function() {
-        var audio = document.getElementById("myAudio");
-        audio.play().catch(function(error) {
-            console.log("Autoplay was prevented. Creating a fallback play button.");
-            // If the browser still blocks it, we show a small button
-            var btn = document.createElement("button");
-            btn.innerHTML = "Click for Music 🎵";
-            btn.onclick = function() { audio.play(); btn.style.display = 'none'; };
-            document.body.appendChild(btn);
-        });
-    };
-</script>
+    <h1>I KNEW YOU'D SAY YES! 🥳</h1>
+    
+    <img src="REPLACE_WITH_YOUR_IMAGE_URL" alt="Funny Celebration">
+    
+    <p>Get ready for the best Valentine's Day ever!</p>
+
+    <audio id="myAudio" autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- 1. FIREWORKS & CONFETTI ---
+        var duration = 15 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+
+            var particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+
+        // --- 2. AUTOMATIC MUSIC LOGIC ---
+        function playMusic() {
+            var audio = document.getElementById("myAudio");
+            audio.play().catch(function(error) {
+                console.log("Browser blocked autoplay, retrying on any movement...");
+                // Fallback: If it fails, play the moment she moves her mouse
+                window.addEventListener('mousemove', function() {
+                    audio.play();
+                }, { once: true });
+            });
+        }
+
+        // Run the play function immediately
+        playMusic();
+    </script>
 </body>
-</html> 
+</html>
