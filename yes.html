@@ -12,6 +12,25 @@
     <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHp1eHByZzZ4eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/lTQF0ODLLJHzaHkK80/giphy.gif" width="400">
     <p>Prepare for the best Valentine's ever!</p>
     
-    <iframe width="0" height="0" src="https://youtu.be/m6Y8xEfyXTs?list=RDBmu_nPf7OE0&t=190" frameborder="0" allow="autoplay"></iframe>
+    <audio id="myAudio" autoplay>
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    // Browsers often block autoplay unless there is a click. 
+    // Since she clicked "YES" to get here, this script will trigger the music.
+    window.onload = function() {
+        var audio = document.getElementById("myAudio");
+        audio.play().catch(function(error) {
+            console.log("Autoplay was prevented. Creating a fallback play button.");
+            // If the browser still blocks it, we show a small button
+            var btn = document.createElement("button");
+            btn.innerHTML = "Click for Music 🎵";
+            btn.onclick = function() { audio.play(); btn.style.display = 'none'; };
+            document.body.appendChild(btn);
+        });
+    };
+</script>
 </body>
 </html> 
