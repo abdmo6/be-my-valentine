@@ -3,29 +3,97 @@
 <head>
     <title>I Have a Question...</title>
     <style>
-        body { text-align: center; font-family: 'Comic Sans MS', cursive; background-color: #ffe6e6; padding-top: 100px; }
-        .container { background: white; padding: 50px; border-radius: 20px; display: inline-block; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-        button { font-size: 20px; padding: 10px 20px; cursor: pointer; border-radius: 10px; border: none; margin: 10px; }
-        #yesBtn { background-color: #ff4d4d; color: white; }
-        #noBtn { background-color: #808080; color: white; position: absolute; }
+        body { 
+            text-align: center; 
+            font-family: 'Comic Sans MS', cursive; 
+            background-color: #ffe6e6; 
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* The Glow Animation for the Box */
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 30px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+            border: 6px solid white;
+            animation: glow-border 4s infinite alternate;
+        }
+
+        @keyframes glow-border {
+            0% { border-color: #ffb3ba; box-shadow: 0 0 30px #ffb3ba; }
+            50% { border-color: #ffdfba; box-shadow: 0 0 50px #ffdfba; }
+            100% { border-color: #baffc9; box-shadow: 0 0 30px #baffc9; }
+        }
+
+        h1 { color: #333; font-size: 2.5rem; margin-bottom: 20px; }
+
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            top: -10%;
+            color: #ff4d4d;
+            font-size: 20px;
+            user-select: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) translateX(20px); opacity: 0; }
+        }
+
+        button { font-size: 20px; padding: 12px 35px; cursor: pointer; border-radius: 15px; border: none; margin: 10px; transition: 0.3s; font-weight: bold; }
+        
+        #yesBtn { background-color: #ff4d4d; color: white; box-shadow: 0 5px #cc0000; }
+        #yesBtn:hover { transform: scale(1.1); background-color: #ff3333; }
+        
+        #noBtn { background-color: #808080; color: white; position: absolute; z-index: 20; }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Will you be my Valentine? ❤️</h1>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eHByZzZ4eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" width="200">
+        
+        <video autoplay loop muted playsinline style="width: 100%; max-width: 300px; border-radius: 15px; margin-bottom: 20px;">
+            <source src="bemyval.mp4" type="video/mp4">
+        </video>
+
         <br>
         <button id="yesBtn" onclick="location.href='yes.html'">YES</button>
         <button id="noBtn" onmouseover="moveButton()">NO</button>
     </div>
 
     <script>
+        // Move the NO button
         function moveButton() {
             var x = Math.random() * (window.innerWidth - 100);
             var y = Math.random() * (window.innerHeight - 100);
             document.getElementById('noBtn').style.left = x + 'px';
             document.getElementById('noBtn').style.top = y + 'px';
         }
+
+        // Generate Floating Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
